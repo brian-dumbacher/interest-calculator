@@ -1,0 +1,185 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Interest Calculator</title>
+</head>
+
+<body bgcolor="#CCCCCC">
+
+<div align="center">
+
+<table cellpadding=5px>
+    <tr>
+        <td colspan="2" width=500 align="center">
+            <font style="font-family:helvetica; font-size:48px; color:#000000; text-align:left;">Interest Calculator</font>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" width=500>
+            <hr>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="initialAmount" style="-webkit-appearance:none; font-family:helvetica; font-size:24px; color:#000000;">Initial Amount ($)</label><br>
+            <input type="text" id="initialAmount" size=15 maxlength=14 style="font-family:helvetica; font-size:24px; color:#000000;">
+        </td>
+        <td>
+            <label for="endAmount" style="-webkit-appearance:none; font-family:helvetica; font-size:24px; color:#000000;">End Amount ($)</label><br>
+            <input type="text" id="endAmount" size=15 maxlength=14 style="font-family:helvetica; font-size:24px;" readonly>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="interestRate" style="-webkit-appearance:none; font-family:helvetica; font-size:24px; color:#000000;">Interest Rate (%)</label><br>
+            <input type="text" id="interestRate" size=6 maxlength=6 style="font-family:helvetica; font-size:24px;">
+        </td>
+        <td>
+            <label for="apy" style="-webkit-appearance:none; font-family:helvetica; font-size:24px; color:#000000;">APY (%)</label><br>
+            <input type="text" id="apy" size=6 maxlength=6 style="font-family:helvetica; font-size:24px;" readonly>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="time" style="-webkit-appearance:none; font-family:helvetica; font-size:24px; color:#000000;">Time (months)</label><br>
+            <input type="text" id="time" size=6 maxlength=6 style="font-family:helvetica; font-size:24px;">
+        </td>
+        <td>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" width=500>
+            <hr>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" width=500>
+            <input type="button" id="calculate" value="Calculate" style="-webkit-appearance:none; font-family:helvetica; font-size:36px; color:#000000; background-color:#FFFFFF;">
+        </td>
+        <td>
+        </td>
+    </tr>
+</table>
+
+</div>
+
+<script type="text/javascript">
+
+/*
+* @author Brian Dumbacher
+*/
+
+// Elements
+const initialAmountInput = document.getElementById("initialAmount")
+const interestRateInput = document.getElementById("interestRate")
+const timeInput = document.getElementById("time")
+const endAmountInput = document.getElementById("endAmount")
+const apyInput = document.getElementById("apy")
+const calculateButton = document.getElementById("calculate")
+// Variables
+var initialAmountValue
+var interestRateValue
+var timeValue
+var endAmountValue
+var apyValue
+var validValuesFlag
+var rValue
+var dValue
+// Event listeners
+calculateButton.addEventListener("click", onClickCalculate)
+initialAmountInput.addEventListener("click", () => { onClickTextInput(initialAmountInput) })
+interestRateInput.addEventListener("click", () => { onClickTextInput(interestRateInput) })
+timeInput.addEventListener("click", () => { onClickTextInput(timeInput) })
+
+function onClickTextInput(input){
+    input.style.color = "rgb(0,0,0)"
+}
+
+function makeNumeric(text){
+    text = text.replaceAll(",", "")
+    if (text.length == 0){
+        return NaN
+    }
+    return Number(text)
+}
+
+function addCommas(text){
+    switch (text.length){
+        case 4:
+            return [text.substring(0, 1), text.substring(1, 4)].join(",")
+        case 5:
+            return [text.substring(0, 2), text.substring(2, 5)].join(",")
+        case 6:
+            return [text.substring(0, 3), text.substring(3, 6)].join(",")
+        case 7:
+            return [text.substring(0, 1), text.substring(1, 4), text.substring(4, 7)].join(",")
+        case 8:
+            return [text.substring(0, 2), text.substring(2, 5), text.substring(5, 8)].join(",")
+        case 9:
+            return [text.substring(0, 3), text.substring(3, 6), text.substring(6, 9)].join(",")
+        case 10:
+            return [text.substring(0, 1), text.substring(1, 4), text.substring(4, 7), text.substring(7, 10)].join(",")
+        case 11:
+            return [text.substring(0, 2), text.substring(2, 5), text.substring(5, 8), text.substring(8, 11)].join(",")
+        case 12:
+            return [text.substring(0, 3), text.substring(3, 6), text.substring(6, 9), text.substring(9, 12)].join(",")
+        case 13:
+            return [text.substring(0, 1), text.substring(1, 4), text.substring(4, 7), text.substring(7, 10), text.substring(10, 13)].join(",")
+        case 14:
+            return [text.substring(0, 2), text.substring(2, 5), text.substring(5, 8), text.substring(8, 11), text.substring(11, 14)].join(",")
+    }
+    return text
+}
+
+function makeString(num){
+    text = num.toString()
+    beforePeriod = text
+    afterPeriod = ""
+    periodIndex = text.indexOf(".")
+    if (periodIndex >= 0){
+        beforePeriod = text.substring(0, periodIndex)
+        afterPeriod = text.substring(periodIndex + 1, text.length)
+    }
+    textNew = addCommas(beforePeriod)
+    if (periodIndex >= 0){
+        textNew += "." + afterPeriod
+    }
+    return textNew
+}
+
+function onClickCalculate(){
+    validValuesFlag = true
+    initialAmountValue = makeNumeric(initialAmountInput.value)
+    interestRateValue = makeNumeric(interestRateInput.value)
+    timeValue = makeNumeric(timeInput.value)
+    if (isNaN(initialAmountValue)){
+        initialAmountInput.style.color = "rgb(255,0,0)"
+        validValuesFlag = false
+    }
+    if (isNaN(interestRateValue)){
+        interestRateInput.style.color = "rgb(255,0,0)"
+        validValuesFlag = false
+    }
+    if (isNaN(timeValue)){
+        timeInput.style.color = "rgb(255,0,0)"
+        validValuesFlag = false
+    }
+    if (validValuesFlag){
+        // Calculate
+        rValue = interestRateValue / 100
+        dValue = timeValue * (365 / 12)
+        endAmountValue = initialAmountValue * Math.exp(dValue * Math.log(1 + rValue / 365))
+        endAmountValue = endAmountValue.toFixed(2)
+        apyValue = 100 * (Math.exp(365 * Math.log(1 + rValue / 365)) - 1)
+        apyValue = apyValue.toFixed(2)
+        // Display results
+        endAmountInput.value = makeString(endAmountValue)
+        apyInput.value = makeString(apyValue)
+    }
+
+}
+
+</script>
+</body> 
