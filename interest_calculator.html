@@ -47,6 +47,8 @@
             <input type="text" id="time" size=6 maxlength=6 style="font-family:helvetica; font-size:24px;">
         </td>
         <td>
+            <label for="interestEarned" style="-webkit-appearance:none; font-family:helvetica; font-size:24px; color:#000000;">Interest Earned ($)</label><br>
+            <input type="text" id="interestEarned" size=15 maxlength=14 style="font-family:helvetica; font-size:24px;" readonly>
         </td>
     </tr>
     <tr>
@@ -77,6 +79,7 @@ const interestRateInput = document.getElementById("interestRate")
 const timeInput = document.getElementById("time")
 const endAmountInput = document.getElementById("endAmount")
 const apyInput = document.getElementById("apy")
+const interestEarnedInput = document.getElementById("interestEarned")
 const calculateButton = document.getElementById("calculate")
 // Variables
 var initialAmountValue
@@ -84,6 +87,7 @@ var interestRateValue
 var timeValue
 var endAmountValue
 var apyValue
+var interestEarnedValue
 var validValuesFlag
 var rValue
 var dValue
@@ -102,7 +106,7 @@ function makeNumeric(text){
     if (text.length == 0){
         return NaN
     }
-    return Number(text)
+    return Number(text).toFixed(2)
 }
 
 function addCommas(text){
@@ -157,14 +161,20 @@ function onClickCalculate(){
     if (isNaN(initialAmountValue)){
         initialAmountInput.style.color = "rgb(255,0,0)"
         validValuesFlag = false
+    } else {
+        initialAmountInput.value = makeString(initialAmountValue)
     }
     if (isNaN(interestRateValue)){
         interestRateInput.style.color = "rgb(255,0,0)"
         validValuesFlag = false
+    } else {
+        interestRateInput.value = makeString(interestRateValue)
     }
     if (isNaN(timeValue)){
         timeInput.style.color = "rgb(255,0,0)"
         validValuesFlag = false
+    } else {
+        timeInput.value = makeString(timeValue)
     }
     if (validValuesFlag){
         // Calculate
@@ -174,11 +184,12 @@ function onClickCalculate(){
         endAmountValue = endAmountValue.toFixed(2)
         apyValue = 100 * (Math.exp(365 * Math.log(1 + rValue / 365)) - 1)
         apyValue = apyValue.toFixed(2)
+        interestEarnedValue = endAmountValue - initialAmountValue
         // Display results
         endAmountInput.value = makeString(endAmountValue)
         apyInput.value = makeString(apyValue)
+        interestEarnedInput.value = makeString(interestEarnedValue)
     }
-
 }
 
 </script>
