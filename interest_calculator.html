@@ -161,20 +161,14 @@ function onClickCalculate(){
     if (isNaN(initialAmountValue)){
         initialAmountInput.style.color = "rgb(255,0,0)"
         validValuesFlag = false
-    } else {
-        initialAmountInput.value = makeString(initialAmountValue)
     }
     if (isNaN(interestRateValue)){
         interestRateInput.style.color = "rgb(255,0,0)"
         validValuesFlag = false
-    } else {
-        interestRateInput.value = makeString(interestRateValue)
     }
     if (isNaN(timeValue)){
         timeInput.style.color = "rgb(255,0,0)"
         validValuesFlag = false
-    } else {
-        timeInput.value = makeString(timeValue)
     }
     if (validValuesFlag){
         // Calculate
@@ -185,6 +179,7 @@ function onClickCalculate(){
         apyValue = 100 * (Math.exp(365 * Math.log(1 + rValue / 365)) - 1)
         apyValue = apyValue.toFixed(2)
         interestEarnedValue = endAmountValue - initialAmountValue
+        interestEarnedValue = interestEarnedValue.toFixed(2)
         // Display results
         endAmountInput.value = makeString(endAmountValue)
         apyInput.value = makeString(apyValue)
