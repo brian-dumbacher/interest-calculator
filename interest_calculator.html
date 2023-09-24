@@ -57,10 +57,11 @@
         </td>
     </tr>
     <tr>
-        <td colspan="2" width=500>
-            <input type="button" id="calculate" value="Calculate" style="-webkit-appearance:none; font-family:helvetica; font-size:36px; color:#000000; background-color:#FFFFFF;">
+        <td>
+            <input type="button" id="calculate" value="Calculate" style="-webkit-appearance:none; font-family:helvetica; font-size:36px; color:#000000; background-color:#FFFFFF; width:200px">
         </td>
         <td>
+            <input type="button" id="print" value="Print" style="-webkit-appearance:none; font-family:helvetica; font-size:36px; color:#000000; background-color:#FFFFFF; width:200px">
         </td>
     </tr>
 </table>
@@ -81,6 +82,8 @@ const endAmountInput = document.getElementById("endAmount")
 const apyInput = document.getElementById("apy")
 const interestEarnedInput = document.getElementById("interestEarned")
 const calculateButton = document.getElementById("calculate")
+const printButton = document.getElementById("print")
+
 // Variables
 var initialAmountValue
 var interestRateValue
@@ -91,25 +94,40 @@ var interestEarnedValue
 var validValuesFlag
 var rValue
 var dValue
-// Event listeners
-calculateButton.addEventListener("click", onClickCalculate)
-initialAmountInput.addEventListener("click", () => { onClickTextInput(initialAmountInput) })
-interestRateInput.addEventListener("click", () => { onClickTextInput(interestRateInput) })
-timeInput.addEventListener("click", () => { onClickTextInput(timeInput) })
 
-function onClickTextInput(input){
-    input.style.color = "rgb(0,0,0)"
+// Event listeners
+initialAmountInput.addEventListener("click", () => { makeTextInputNormal(initialAmountInput) })
+interestRateInput.addEventListener("click", () => { makeTextInputNormal(interestRateInput) })
+timeInput.addEventListener("click", () => { makeTextInputNormal(timeInput) })
+calculateButton.addEventListener("click", onClickCalculate)
+printButton.addEventListener("click", onClickPrint)
+
+// Functions
+function makeTextInputNormal(input){
+    input.style.backgroundColor = null
 }
 
-function makeNumeric(text){
+function makeTextInputError(input){
+    input.style.backgroundColor = "#FF0000"
+}
+
+function makeDollarNumeric(text){
     text = text.replaceAll(",", "")
-    if (text.length == 0){
+    if (isNaN(Number(text))){
         return NaN
     }
-    return Number(text).toFixed(2)
+    return Math.round(100.0 * Number(text)) / 100.0
 }
 
-function addCommas(text){
+function makeInterestNumeric(text){
+    return Number(text)
+}
+
+function makeTimeNumeric(text){
+    return Number(text)
+}
+
+function addDollarCommas(text){
     switch (text.length){
         case 4:
             return [text.substring(0, 1), text.substring(1, 4)].join(",")
@@ -137,8 +155,8 @@ function addCommas(text){
     return text
 }
 
-function makeString(num){
-    text = num.toString()
+function makeDollarString(num){
+    text = num.toFixed(2)
     beforePeriod = text
     afterPeriod = ""
     periodIndex = text.indexOf(".")
@@ -146,46 +164,110 @@ function makeString(num){
         beforePeriod = text.substring(0, periodIndex)
         afterPeriod = text.substring(periodIndex + 1, text.length)
     }
-    textNew = addCommas(beforePeriod)
+    textNew = addDollarCommas(beforePeriod)
     if (periodIndex >= 0){
         textNew += "." + afterPeriod
     }
     return textNew
 }
 
+function makeAPYString(num){
+    return num.toFixed(2)
+}
+
 function onClickCalculate(){
+    // Errors and valid value flags
+    errors = []
+    errorText = "The following errors were identified:\n\n"
     validValuesFlag = true
-    initialAmountValue = makeNumeric(initialAmountInput.value)
-    interestRateValue = makeNumeric(interestRateInput.value)
-    timeValue = makeNumeric(timeInput.value)
-    if (isNaN(initialAmountValue)){
-        initialAmountInput.style.color = "rgb(255,0,0)"
+
+    // Values
+    initialAmountValue = makeDollarNumeric(initialAmountInput.value)
+    interestRateValue = makeInterestNumeric(interestRateInput.value)
+    timeValue = makeTimeNumeric(timeInput.value)
+
+    // Check initial amount
+    if (initialAmountInput.value.trim() == ""){
+        makeTextInputError(initialAmountInput)
         validValuesFlag = false
-    }
-    if (isNaN(interestRateValue)){
-        interestRateInput.style.color = "rgb(255,0,0)"
+        errors.push("Initial amount is blank.")
+    } else if (isNaN(initialAmountValue)){
+        makeTextInputError(initialAmountInput)
         validValuesFlag = false
-    }
-    if (isNaN(timeValue)){
-        timeInput.style.color = "rgb(255,0,0)"
+        errors.push("Initial amount is not a number.")
+    } else if (initialAmountValue < 0.0){
+        makeTextInputError(initialAmountInput)
         validValuesFlag = false
+        errors.push("Initial amount is negative.")
+    } else {
+        makeTextInputNormal(initialAmountInput)
     }
+
+    // Check interest rate
+    if (interestRateInput.value.trim() == ""){
+        makeTextInputError(interestRateInput)
+        validValuesFlag = false
+        errors.push("Interest rate is blank.")
+    } else if (isNaN(interestRateValue)){
+        makeTextInputError(interestRateInput)
+        validValuesFlag = false
+        errors.push("Interest rate is not a number.")
+    } else if (interestRateValue < 0.0){
+        makeTextInputError(interestRateInput)
+        validValuesFlag = false
+        errors.push("Interest rate is negative.")
+    } else {
+        makeTextInputNormal(interestRateInput)
+    }
+
+    // Check time
+    if (timeInput.value.trim() == ""){
+        makeTextInputError(timeInput)
+        validValuesFlag = false
+        errors.push("Time is blank.")
+    } else if (isNaN(timeValue)){
+        makeTextInputError(timeInput)
+        validValuesFlag = false
+        errors.push("Time is not a number.")
+    } else if (timeValue < 0.0){
+        makeTextInputError(timeInput)
+        validValuesFlag = false
+        errors.push("Time is negative.")
+    } else {
+        makeTextInputNormal(timeInput)
+    }
+
     if (validValuesFlag){
         // Calculate
-        rValue = interestRateValue / 100
-        dValue = timeValue * (365 / 12)
-        endAmountValue = initialAmountValue * Math.exp(dValue * Math.log(1 + rValue / 365))
-        endAmountValue = endAmountValue.toFixed(2)
-        apyValue = 100 * (Math.exp(365 * Math.log(1 + rValue / 365)) - 1)
-        apyValue = apyValue.toFixed(2)
+        rValue = interestRateValue / 100.0
+        dValue = timeValue * (365.0 / 12.0)
+        endAmountValue = initialAmountValue * Math.exp(dValue * Math.log(1.0 + rValue / 365.0))
+        endAmountValue = Math.round(100.0 * endAmountValue) / 100.0
+        apyValue = 100.0 * (Math.exp(365.0 * Math.log(1.0 + rValue / 365.0)) - 1.0)
         interestEarnedValue = endAmountValue - initialAmountValue
-        interestEarnedValue = interestEarnedValue.toFixed(2)
+        interestEarnedValue = Math.round(100.0 * interestEarnedValue) / 100.0
+
         // Display results
-        endAmountInput.value = makeString(endAmountValue)
-        apyInput.value = makeString(apyValue)
-        interestEarnedInput.value = makeString(interestEarnedValue)
+        endAmountInput.value = makeDollarString(endAmountValue)
+        apyInput.value = makeAPYString(apyValue)
+        interestEarnedInput.value = makeDollarString(interestEarnedValue)
+    } else {
+        endAmountInput.value = ""
+        apyInput.value = ""
+        interestEarnedInput.value = ""
+        for (i = 0; i < errors.length; i++){
+            if (i > 0){
+                errorText += "\n"
+            }
+            errorText += "--  " + errors[i]
+        }
+        alert(errorText)
     }
 }
 
+function onClickPrint(){
+    window.print()
+}
+
 </script>
-</body> 
+</body>
