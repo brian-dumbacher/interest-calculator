@@ -1,4 +1,3 @@
-
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -13,7 +12,7 @@
 <table cellpadding=5px>
     <tr>
         <td colspan="2" width=500 align="center">
-            <font style="font-family:helvetica; font-size:48px; color:#000000; text-align:left;">Interest Calculator</font>
+            <font style="font-family: helvetica; font-size: 48px; color: #000000;">Interest Calculator</font>
         </td>
     </tr>
     <tr>
@@ -23,32 +22,52 @@
     </tr>
     <tr>
         <td>
-            <label for="initialAmount" style="-webkit-appearance:none; font-family:helvetica; font-size:24px; color:#000000;">Initial Amount ($)</label><br>
-            <input type="text" id="initialAmount" size=15 maxlength=14 style="font-family:helvetica; font-size:24px; color:#000000;">
+            <!-- Initial amount text field -->
+            <label for="initialAmount" style="-webkit-appearance: none; font-family: helvetica; font-size: 24px; color: #000000;">Initial Amount ($)</label><br>
+            <input type="text" id="initialAmount" size=15 maxlength=14 style="font-family: helvetica; font-size: 24px; color: #000000; margin-top: 5px;">
         </td>
         <td>
-            <label for="endAmount" style="-webkit-appearance:none; font-family:helvetica; font-size:24px; color:#000000;">End Amount ($)</label><br>
-            <input type="text" id="endAmount" size=15 maxlength=14 style="font-family:helvetica; font-size:24px;" readonly>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label for="interestRate" style="-webkit-appearance:none; font-family:helvetica; font-size:24px; color:#000000;">Interest Rate (%)</label><br>
-            <input type="text" id="interestRate" size=6 maxlength=6 style="font-family:helvetica; font-size:24px;">
-        </td>
-        <td>
-            <label for="apy" style="-webkit-appearance:none; font-family:helvetica; font-size:24px; color:#000000;">APY (%)</label><br>
-            <input type="text" id="apy" size=6 maxlength=6 style="font-family:helvetica; font-size:24px;" readonly>
+            <!-- End amount text field -->
+            <label for="endAmount" style="-webkit-appearance: none; font-family: helvetica; font-size: 24px; color: #000000;">End Amount ($)</label><br>
+            <input type="text" id="endAmount" size=15 maxlength=14 style="font-family: helvetica; font-size: 24px; color: #000000; margin-top: 5px;" readonly>
         </td>
     </tr>
     <tr>
         <td>
-            <label for="time" style="-webkit-appearance:none; font-family:helvetica; font-size:24px; color:#000000;">Time (months)</label><br>
-            <input type="text" id="time" size=6 maxlength=6 style="font-family:helvetica; font-size:24px;">
+            <!-- Interest rate text field -->
+            <label for="interestRate" style="-webkit-appearance: none; font-family: helvetica; font-size: 24px; color: #000000;">Interest Rate (%)</label><br>
+            <input type="text" id="interestRate" size=6 maxlength=6 style="font-family: helvetica; font-size: 24px; color: #000000; margin-top: 5px;">
         </td>
         <td>
-            <label for="interestEarned" style="-webkit-appearance:none; font-family:helvetica; font-size:24px; color:#000000;">Interest Earned ($)</label><br>
-            <input type="text" id="interestEarned" size=15 maxlength=14 style="font-family:helvetica; font-size:24px;" readonly>
+            <!-- APY text field -->
+            <label for="apy" style="-webkit-appearance: none; font-family: helvetica; font-size: 24px; color: #000000;">APY (%)</label><br>
+            <input type="text" id="apy" size=6 maxlength=6 style="font-family: helvetica; font-size: 24px; color: #000000; margin-top: 5px;" readonly>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <!-- Interest compounding selection -->
+            <label for="compounding" style="-webkit-appearance: none; font-family: helvetica; font-size: 24px; color: #000000;">Compounding</label><br>
+            <select id="compounding" style="font-family: helvetica; font-size: 24px; color: #000000; margin-top: 5px; width: 175px;">
+                <option value="daily" selected>Daily</option>
+                <option value="monthly">Monthly</option>
+            </select>
+        </td>
+        <td>
+            <!-- Interest earned text field -->
+            <label for="interestEarned" style="-webkit-appearance: none; font-family: helvetica; font-size: 24px; color: #000000;">Interest Earned ($)</label><br>
+            <input type="text" id="interestEarned" size=15 maxlength=14 style="font-family: helvetica; font-size: 24px; color: #000000; margin-top: 5px;" readonly>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <!-- Time text field -->
+            <label for="time" style="-webkit-appearance: none; font-family: helvetica; font-size: 24px; color: #000000;">Time (months)</label><br>
+            <input type="text" id="time" size=6 maxlength=6 style="font-family: helvetica; font-size: 24px; color: #000000; margin-top: 5px;">
+        </td>
+        <td>
+            <!-- Whitespace -->
+            &nbsp;
         </td>
     </tr>
     <tr>
@@ -58,10 +77,12 @@
     </tr>
     <tr>
         <td>
-            <input type="button" id="calculate" value="Calculate" style="-webkit-appearance:none; font-family:helvetica; font-size:36px; color:#000000; background-color:#FFFFFF; width:200px">
+            <!-- Calculate button -->
+            <input type="button" id="calculate" value="Calculate" style="-webkit-appearance: none; font-family: helvetica; font-size: 36px; color: #000000; background-color: #FFFFFF; width: 200px">
         </td>
         <td>
-            <input type="button" id="print" value="Print" style="-webkit-appearance:none; font-family:helvetica; font-size:36px; color:#000000; background-color:#FFFFFF; width:200px">
+            <!-- Print button -->
+            <input type="button" id="print" value="Print" style="-webkit-appearance: none; font-family: helvetica; font-size: 36px; color: #000000; background-color: #FFFFFF; width: 200px">
         </td>
     </tr>
 </table>
@@ -75,25 +96,28 @@
 */
 
 // Elements
-const initialAmountInput = document.getElementById("initialAmount")
-const interestRateInput = document.getElementById("interestRate")
-const timeInput = document.getElementById("time")
-const endAmountInput = document.getElementById("endAmount")
-const apyInput = document.getElementById("apy")
+const initialAmountInput  = document.getElementById("initialAmount")
+const interestRateInput   = document.getElementById("interestRate")
+const timeInput           = document.getElementById("time")
+const compoundingSelect   = document.getElementById("compounding")
+const endAmountInput      = document.getElementById("endAmount")
+const apyInput            = document.getElementById("apy")
 const interestEarnedInput = document.getElementById("interestEarned")
-const calculateButton = document.getElementById("calculate")
-const printButton = document.getElementById("print")
+const calculateButton     = document.getElementById("calculate")
+const printButton         = document.getElementById("print")
 
 // Variables
 var initialAmountValue
 var interestRateValue
 var timeValue
+var compoundingValue
 var endAmountValue
 var apyValue
 var interestEarnedValue
 var validValuesFlag
 var rValue
 var dValue
+var tValue
 
 // Event listeners
 initialAmountInput.addEventListener("click", () => { makeTextInputNormal(initialAmountInput) })
@@ -103,13 +127,35 @@ calculateButton.addEventListener("click", onClickCalculate)
 printButton.addEventListener("click", onClickPrint)
 
 // Functions
+
+/*
+Name:        makeTextInputNormal
+Purpose:     Set background color of text field to null
+Parameters:  input (text field element)
+Returns:
+*/
+
 function makeTextInputNormal(input){
     input.style.backgroundColor = null
 }
 
+/*
+Name:        makeTextInputError
+Purpose:     Set background color of text field to red
+Parameters:  input (text field element)
+Returns:
+*/
+
 function makeTextInputError(input){
     input.style.backgroundColor = "#FF0000"
 }
+
+/*
+Name:        makeDollarNumeric
+Purpose:     Convert dollar value from string format to numeric format
+Parameters:  text (dollar value in string format)
+Returns:     NaN or dollar value in numeric format
+*/
 
 function makeDollarNumeric(text){
     text = text.replaceAll(",", "")
@@ -119,41 +165,51 @@ function makeDollarNumeric(text){
     return Math.round(100.0 * Number(text)) / 100.0
 }
 
+/*
+Name:        makeInterestNumeric
+Purpose:     Convert interest value from string format to numeric format
+Parameters:  text (interest value in string format)
+Returns:     interest value in numeric format
+*/
+
 function makeInterestNumeric(text){
     return Number(text)
 }
+
+/*
+Name:        makeTimeNumeric
+Purpose:     Convert time value from string format to numeric format
+Parameters:  text (time value in string format)
+Returns:     time value in numeric format
+*/
 
 function makeTimeNumeric(text){
     return Number(text)
 }
 
+/*
+Name:        addDollarCommas
+Purpose:     Add commas to dollar value in string format
+Parameters:  text (dollar value in string format)
+Returns:     Dollar value in string format with commas
+*/
+
 function addDollarCommas(text){
-    switch (text.length){
-        case 4:
-            return [text.substring(0, 1), text.substring(1, 4)].join(",")
-        case 5:
-            return [text.substring(0, 2), text.substring(2, 5)].join(",")
-        case 6:
-            return [text.substring(0, 3), text.substring(3, 6)].join(",")
-        case 7:
-            return [text.substring(0, 1), text.substring(1, 4), text.substring(4, 7)].join(",")
-        case 8:
-            return [text.substring(0, 2), text.substring(2, 5), text.substring(5, 8)].join(",")
-        case 9:
-            return [text.substring(0, 3), text.substring(3, 6), text.substring(6, 9)].join(",")
-        case 10:
-            return [text.substring(0, 1), text.substring(1, 4), text.substring(4, 7), text.substring(7, 10)].join(",")
-        case 11:
-            return [text.substring(0, 2), text.substring(2, 5), text.substring(5, 8), text.substring(8, 11)].join(",")
-        case 12:
-            return [text.substring(0, 3), text.substring(3, 6), text.substring(6, 9), text.substring(9, 12)].join(",")
-        case 13:
-            return [text.substring(0, 1), text.substring(1, 4), text.substring(4, 7), text.substring(7, 10), text.substring(10, 13)].join(",")
-        case 14:
-            return [text.substring(0, 2), text.substring(2, 5), text.substring(5, 8), text.substring(8, 11), text.substring(11, 14)].join(",")
+    textNew = ""
+    while (text.length > 3){
+        textNew = "," + text.substring(text.length - 3, text.length) + textNew
+        text = text.substring(0, text.length - 3)
     }
-    return text
+    textNew = text + textNew
+    return textNew
 }
+
+/*
+Name:        makeDollarString
+Purpose:     Convert dollar value from numeric format to string format
+Parameters:  num (dollar value in numeric format)
+Returns:     Dollar value in string format
+*/
 
 function makeDollarString(num){
     text = num.toFixed(2)
@@ -171,9 +227,23 @@ function makeDollarString(num){
     return textNew
 }
 
+/*
+Name:        makeAPYString
+Purpose:     Convert APY value from numeric format to string format
+Parameters:  num (APY value in numeric format)
+Returns:     APY value in string format
+*/
+
 function makeAPYString(num){
     return num.toFixed(2)
 }
+
+/*
+Name:        onClickCalculate
+Purpose:     Calculate the end amount, APY, and earned interest amount and display results
+Parameters:
+Returns:
+*/
 
 function onClickCalculate(){
     // Errors and valid value flags
@@ -183,22 +253,23 @@ function onClickCalculate(){
 
     // Values
     initialAmountValue = makeDollarNumeric(initialAmountInput.value)
-    interestRateValue = makeInterestNumeric(interestRateInput.value)
-    timeValue = makeTimeNumeric(timeInput.value)
+    interestRateValue  = makeInterestNumeric(interestRateInput.value)
+    timeValue          = makeTimeNumeric(timeInput.value)
+    compoundingValue   = compoundingSelect.value
 
     // Check initial amount
     if (initialAmountInput.value.trim() == ""){
         makeTextInputError(initialAmountInput)
         validValuesFlag = false
-        errors.push("Initial amount is blank.")
+        errors.push("Initial Amount ($) is blank.")
     } else if (isNaN(initialAmountValue)){
         makeTextInputError(initialAmountInput)
         validValuesFlag = false
-        errors.push("Initial amount is not a number.")
+        errors.push("Initial Amount ($) is not a number.")
     } else if (initialAmountValue < 0.0){
         makeTextInputError(initialAmountInput)
         validValuesFlag = false
-        errors.push("Initial amount is negative.")
+        errors.push("Initial Amount ($) is negative.")
     } else {
         makeTextInputNormal(initialAmountInput)
     }
@@ -207,15 +278,15 @@ function onClickCalculate(){
     if (interestRateInput.value.trim() == ""){
         makeTextInputError(interestRateInput)
         validValuesFlag = false
-        errors.push("Interest rate is blank.")
+        errors.push("Interest Rate (%) is blank.")
     } else if (isNaN(interestRateValue)){
         makeTextInputError(interestRateInput)
         validValuesFlag = false
-        errors.push("Interest rate is not a number.")
+        errors.push("Interest Rate (%) is not a number.")
     } else if (interestRateValue < 0.0){
         makeTextInputError(interestRateInput)
         validValuesFlag = false
-        errors.push("Interest rate is negative.")
+        errors.push("Interest Rate (%) is negative.")
     } else {
         makeTextInputNormal(interestRateInput)
     }
@@ -224,15 +295,15 @@ function onClickCalculate(){
     if (timeInput.value.trim() == ""){
         makeTextInputError(timeInput)
         validValuesFlag = false
-        errors.push("Time is blank.")
+        errors.push("Time (months) is blank.")
     } else if (isNaN(timeValue)){
         makeTextInputError(timeInput)
         validValuesFlag = false
-        errors.push("Time is not a number.")
+        errors.push("Time (months) is not a number.")
     } else if (timeValue < 0.0){
         makeTextInputError(timeInput)
         validValuesFlag = false
-        errors.push("Time is negative.")
+        errors.push("Time (months) is negative.")
     } else {
         makeTextInputNormal(timeInput)
     }
@@ -240,22 +311,27 @@ function onClickCalculate(){
     if (validValuesFlag){
         // Calculate
         rValue = interestRateValue / 100.0
-        dValue = timeValue * (365.0 / 12.0)
-        endAmountValue = initialAmountValue * Math.exp(dValue * Math.log(1.0 + rValue / 365.0))
+        if (compoundingValue == "monthly"){
+            dValue = 12.0
+        } else if (compoundingValue == "daily"){
+            dValue = 365.0
+        }
+        tValue = timeValue * (dValue / 12.0)
+        endAmountValue = initialAmountValue * Math.exp(tValue * Math.log(1.0 + rValue / dValue))
         endAmountValue = Math.round(100.0 * endAmountValue) / 100.0
-        apyValue = 100.0 * (Math.exp(365.0 * Math.log(1.0 + rValue / 365.0)) - 1.0)
+        apyValue = 100.0 * (Math.exp(dValue * Math.log(1.0 + rValue / dValue)) - 1.0)
         interestEarnedValue = endAmountValue - initialAmountValue
         interestEarnedValue = Math.round(100.0 * interestEarnedValue) / 100.0
 
         // Display results
-        endAmountInput.value = makeDollarString(endAmountValue)
-        apyInput.value = makeAPYString(apyValue)
+        endAmountInput.value      = makeDollarString(endAmountValue)
+        apyInput.value            = makeAPYString(apyValue)
         interestEarnedInput.value = makeDollarString(interestEarnedValue)
     } else {
-        endAmountInput.value = ""
-        apyInput.value = ""
+        endAmountInput.value      = ""
+        apyInput.value            = ""
         interestEarnedInput.value = ""
-        for (i = 0; i < errors.length; i++){
+        for (i=0; i<errors.length; i++){
             if (i > 0){
                 errorText += "\n"
             }
@@ -264,6 +340,13 @@ function onClickCalculate(){
         alert(errorText)
     }
 }
+
+/*
+Name:        onClickPrint
+Purpose:     Open the print dialog box
+Parameters:
+Returns:
+*/
 
 function onClickPrint(){
     window.print()
