@@ -13,6 +13,12 @@ Author:   Brian Dumbacher
     <meta name="author" content="Brian Dumbacher">
     <title>Interest Calculator</title>
     <style>
+        .errors {
+            color: #FF0000;
+            font-family: helvetica;
+            font-size: 20px;
+        }
+
         .input-button {
             background-color: #FFFFFF;
             color: #000000;
@@ -87,7 +93,7 @@ Author:   Brian Dumbacher
                     End Amount ($)
                 </label>
                 <br>
-                <input type="text" id="endAmount" size=15 maxlength=14 class="input-text" readonly>
+                <input type="text" id="endAmount" size=15 maxlength=14 class="input-text" tabindex="-1" readonly>
             </td>
         </tr>
         <tr>
@@ -105,7 +111,7 @@ Author:   Brian Dumbacher
                     Interest Earned ($)
                 </label>
                 <br>
-                <input type="text" id="interestEarned" size=15 maxlength=14 class="input-text" readonly>
+                <input type="text" id="interestEarned" size=15 maxlength=14 class="input-text" tabindex="-1" readonly>
             </td>
         </tr>
         <tr>
@@ -123,7 +129,7 @@ Author:   Brian Dumbacher
                     APY (%)
                 </label>
                 <br>
-                <input type="text" id="apy" size=6 maxlength=6 class="input-text" readonly>
+                <input type="text" id="apy" size=6 maxlength=6 class="input-text" tabindex="-1" readonly>
             </td>
         </tr>
         <tr>
@@ -162,6 +168,12 @@ Author:   Brian Dumbacher
                 <input type="button" id="print" value="Print" class="input-button">
             </td>
         </tr>
+        <tr>
+            <td colspan=2 align="left">
+                <font id="errors" class="errors">
+                </font>
+            </td>
+        </tr>
     </table>
 </div>
 
@@ -173,23 +185,24 @@ Author:   Brian Dumbacher
 
 // Elements
 const initialAmountInput  = document.getElementById("initialAmount")
+const timeInput           = document.getElementById("time")
 const interestRateInput   = document.getElementById("interestRate")
 const compoundingSelect   = document.getElementById("compounding")
-const timeInput           = document.getElementById("time")
 const endAmountInput      = document.getElementById("endAmount")
-const apyInput            = document.getElementById("apy")
 const interestEarnedInput = document.getElementById("interestEarned")
+const apyInput            = document.getElementById("apy")
 const calculateButton     = document.getElementById("calculate")
 const printButton         = document.getElementById("print")
+const errorsFont          = document.getElementById("errors")
 
 // Variables
 var initialAmountValue
+var timeValue
 var interestRateValue
 var compoundingValue
-var timeValue
 var endAmountValue
-var apyValue
 var interestEarnedValue
+var apyValue
 var validValuesFlag
 var rValue
 var dValue
@@ -197,8 +210,8 @@ var tValue
 
 // Event listeners
 initialAmountInput.addEventListener("click", () => { makeTextInputNormal(initialAmountInput) })
-interestRateInput.addEventListener("click", () => { makeTextInputNormal(interestRateInput) })
 timeInput.addEventListener("click", () => { makeTextInputNormal(timeInput) })
+interestRateInput.addEventListener("click", () => { makeTextInputNormal(interestRateInput) })
 calculateButton.addEventListener("click", onClickCalculate)
 printButton.addEventListener("click", onClickPrint)
 
@@ -242,17 +255,6 @@ function makeDollarNumeric(text){
 }
 
 /*
-Name:        makeInterestRateNumeric
-Purpose:     Convert interest rate value from string format to numeric format
-Parameters:  text (interest rate value in string format)
-Returns:     interest rate value in numeric format
-*/
-
-function makeInterestRateNumeric(text){
-    return Number(text)
-}
-
-/*
 Name:        makeTimeNumeric
 Purpose:     Convert time value from string format to numeric format
 Parameters:  text (time value in string format)
@@ -260,6 +262,17 @@ Returns:     time value in numeric format
 */
 
 function makeTimeNumeric(text){
+    return Number(text)
+}
+
+/*
+Name:        makeInterestRateNumeric
+Purpose:     Convert interest rate value from string format to numeric format
+Parameters:  text (interest rate value in string format)
+Returns:     interest rate value in numeric format
+*/
+
+function makeInterestRateNumeric(text){
     return Number(text)
 }
 
@@ -316,7 +329,7 @@ function makeAPYString(num){
 
 /*
 Name:        onClickCalculate
-Purpose:     Calculate the end amount, earned interest, and APY and display results
+Purpose:     Calculate the end amount, interest earned, and APY and display results
 Parameters:
 Returns:
 */
@@ -324,13 +337,13 @@ Returns:
 function onClickCalculate(){
     // Errors and valid values flag
     errors = []
-    errorText = "The following errors were found:\n\n"
+    errorsText = "<br>The following errors were found:<br><br>"
     validValuesFlag = true
 
     // Input values
     initialAmountValue = makeDollarNumeric(initialAmountInput.value)
-    interestRateValue  = makeInterestRateNumeric(interestRateInput.value)
     timeValue          = makeTimeNumeric(timeInput.value)
+    interestRateValue  = makeInterestRateNumeric(interestRateInput.value)
     compoundingValue   = compoundingSelect.value
 
     // Check initial amount
@@ -350,23 +363,6 @@ function onClickCalculate(){
         makeTextInputNormal(initialAmountInput)
     }
 
-    // Check interest rate
-    if (interestRateInput.value.trim() == ""){
-        makeTextInputError(interestRateInput)
-        validValuesFlag = false
-        errors.push("Interest Rate (%) is blank.")
-    } else if (isNaN(interestRateValue)){
-        makeTextInputError(interestRateInput)
-        validValuesFlag = false
-        errors.push("Interest Rate (%) is not a number.")
-    } else if (interestRateValue < 0.0){
-        makeTextInputError(interestRateInput)
-        validValuesFlag = false
-        errors.push("Interest Rate (%) is negative.")
-    } else {
-        makeTextInputNormal(interestRateInput)
-    }
-
     // Check time
     if (timeInput.value.trim() == ""){
         makeTextInputError(timeInput)
@@ -384,8 +380,28 @@ function onClickCalculate(){
         makeTextInputNormal(timeInput)
     }
 
+    // Check interest rate
+    if (interestRateInput.value.trim() == ""){
+        makeTextInputError(interestRateInput)
+        validValuesFlag = false
+        errors.push("Interest Rate (%) is blank.")
+    } else if (isNaN(interestRateValue)){
+        makeTextInputError(interestRateInput)
+        validValuesFlag = false
+        errors.push("Interest Rate (%) is not a number.")
+    } else if (interestRateValue < 0.0){
+        makeTextInputError(interestRateInput)
+        validValuesFlag = false
+        errors.push("Interest Rate (%) is negative.")
+    } else {
+        makeTextInputNormal(interestRateInput)
+    }
+
     if (validValuesFlag){
-        // Calculate end amount, earned interest, and APY
+        // Clear error messages
+        errorsFont.innerHTML = ""
+
+        // Calculate end amount, interest earned, and APY
         rValue = interestRateValue / 100.0
         if (compoundingValue == "daily"){
             dValue = 365.0
@@ -395,26 +411,28 @@ function onClickCalculate(){
         tValue = timeValue * (dValue / 12.0)
         endAmountValue = initialAmountValue * Math.exp(tValue * Math.log(1.0 + rValue / dValue))
         endAmountValue = Math.round(100.0 * endAmountValue) / 100.0
-        apyValue = 100.0 * (Math.exp(dValue * Math.log(1.0 + rValue / dValue)) - 1.0)
         interestEarnedValue = endAmountValue - initialAmountValue
         interestEarnedValue = Math.round(100.0 * interestEarnedValue) / 100.0
+        apyValue = 100.0 * (Math.exp(dValue * Math.log(1.0 + rValue / dValue)) - 1.0)
 
         // Display results
         endAmountInput.value      = makeDollarString(endAmountValue)
-        apyInput.value            = makeAPYString(apyValue)
         interestEarnedInput.value = makeDollarString(interestEarnedValue)
+        apyInput.value            = makeAPYString(apyValue)
     } else {
-        // Display error messages
+        // Clear end amount, interest earned, and APY text fields
         endAmountInput.value      = ""
-        apyInput.value            = ""
         interestEarnedInput.value = ""
+        apyInput.value            = ""
+
+        // Display error messages
         for (i=0; i<errors.length; i++){
             if (i > 0){
-                errorText += "\n"
+                errorsText += "<br>"
             }
-            errorText += "--  " + errors[i]
+            errorsText += "--  " + errors[i]
         }
-        alert(errorText)
+        errorsFont.innerHTML = errorsText
     }
 }
 
