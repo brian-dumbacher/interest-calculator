@@ -1,92 +1,168 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
+
+<!--
+Name:     interest_calculator.html
+Purpose:  Calculate compounded interest based on initial amount, time, interest rate, and compounding frequency
+Author:   Brian Dumbacher
+-->
+
 <head>
-<meta charset="UTF-8">
-<title>Interest Calculator</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Tool for calculating compounded interest">
+    <meta name="author" content="Brian Dumbacher">
+    <title>Interest Calculator</title>
+    <style>
+        .input-button {
+            background-color: #FFFFFF;
+            color: #000000;
+            font-family: helvetica;
+            font-size: 36px;
+            width: 200px
+        }
+
+        .input-selection {
+            color: #000000;
+            font-family: helvetica;
+            font-size: 24px;
+            height: 35px;
+            margin-bottom: 5px;
+            margin-top: 5px;
+            width: 200px;
+        }
+
+        .input-text {
+            color: #000000;
+            font-family: helvetica;
+            font-size: 24px;
+            margin-bottom: 5px;
+            margin-top: 5px;
+        }
+
+        .label-input {
+            color: #000000;
+            font-family: helvetica;
+            font-size: 20px;
+        }
+
+        .title {
+            color: #000000;
+            font-family: helvetica;
+            font-size: 48px;
+        }
+    </style>
 </head>
 
-<body bgcolor="#CCCCCC">
+<body style="margin: 0px; background-color: #CCCCCC">
+
+<div style="margin: 0px auto; text-align: center; height: 30px;">
+</div>
 
 <div align="center">
-
-<table cellpadding=5px>
-    <tr>
-        <td colspan="2" width=500 align="center">
-            <font style="font-family: helvetica; font-size: 48px; color: #000000;">Interest Calculator</font>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2" width=500>
-            <hr>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <!-- Initial amount text field -->
-            <label for="initialAmount" style="-webkit-appearance: none; font-family: helvetica; font-size: 24px; color: #000000;">Initial Amount ($)</label><br>
-            <input type="text" id="initialAmount" size=15 maxlength=14 style="font-family: helvetica; font-size: 24px; color: #000000; margin-top: 5px;">
-        </td>
-        <td>
-            <!-- End amount text field -->
-            <label for="endAmount" style="-webkit-appearance: none; font-family: helvetica; font-size: 24px; color: #000000;">End Amount ($)</label><br>
-            <input type="text" id="endAmount" size=15 maxlength=14 style="font-family: helvetica; font-size: 24px; color: #000000; margin-top: 5px;" readonly>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <!-- Interest rate text field -->
-            <label for="interestRate" style="-webkit-appearance: none; font-family: helvetica; font-size: 24px; color: #000000;">Interest Rate (%)</label><br>
-            <input type="text" id="interestRate" size=6 maxlength=6 style="font-family: helvetica; font-size: 24px; color: #000000; margin-top: 5px;">
-        </td>
-        <td>
-            <!-- APY text field -->
-            <label for="apy" style="-webkit-appearance: none; font-family: helvetica; font-size: 24px; color: #000000;">APY (%)</label><br>
-            <input type="text" id="apy" size=6 maxlength=6 style="font-family: helvetica; font-size: 24px; color: #000000; margin-top: 5px;" readonly>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <!-- Interest compounding selection -->
-            <label for="compounding" style="-webkit-appearance: none; font-family: helvetica; font-size: 24px; color: #000000;">Compounding</label><br>
-            <select id="compounding" style="font-family: helvetica; font-size: 24px; color: #000000; margin-top: 5px; width: 175px;">
-                <option value="daily" selected>Daily</option>
-                <option value="monthly">Monthly</option>
-            </select>
-        </td>
-        <td>
-            <!-- Interest earned text field -->
-            <label for="interestEarned" style="-webkit-appearance: none; font-family: helvetica; font-size: 24px; color: #000000;">Interest Earned ($)</label><br>
-            <input type="text" id="interestEarned" size=15 maxlength=14 style="font-family: helvetica; font-size: 24px; color: #000000; margin-top: 5px;" readonly>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <!-- Time text field -->
-            <label for="time" style="-webkit-appearance: none; font-family: helvetica; font-size: 24px; color: #000000;">Time (months)</label><br>
-            <input type="text" id="time" size=6 maxlength=6 style="font-family: helvetica; font-size: 24px; color: #000000; margin-top: 5px;">
-        </td>
-        <td>
-            <!-- Whitespace -->
-            &nbsp;
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2" width=500>
-            <hr>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <!-- Calculate button -->
-            <input type="button" id="calculate" value="Calculate" style="-webkit-appearance: none; font-family: helvetica; font-size: 36px; color: #000000; background-color: #FFFFFF; width: 200px">
-        </td>
-        <td>
-            <!-- Print button -->
-            <input type="button" id="print" value="Print" style="-webkit-appearance: none; font-family: helvetica; font-size: 36px; color: #000000; background-color: #FFFFFF; width: 200px">
-        </td>
-    </tr>
-</table>
-
+    <table cellpadding=5px>
+        <tr>
+            <td colspan=2 width=500 align="center">
+                <font class="title">
+                    Interest Calculator
+                </font>
+            </td>
+        </tr>
+        <tr>
+            <td colspan=2 width=500>
+                <hr>
+            </td>
+        </tr>
+        <tr>
+            <td width=250 valign="top">
+                <!-- Initial Amount text field -->
+                <label for="initialAmount" class="label-input">
+                    Initial Amount ($)
+                </label>
+                <br>
+                <input type="text" id="initialAmount" size=15 maxlength=14 class="input-text">
+            </td>
+            <td width=250 valign="top">
+                <!-- End Emount text field -->
+                <label for="endAmount" class="label-input">
+                    End Amount ($)
+                </label>
+                <br>
+                <input type="text" id="endAmount" size=15 maxlength=14 class="input-text" readonly>
+            </td>
+        </tr>
+        <tr>
+            <td width=250 valign="top">
+                <!-- Time text field -->
+                <label for="time" class="label-input">
+                    Time (months)
+                </label>
+                <br>
+                <input type="text" id="time" size=6 maxlength=6 class="input-text">
+            </td>
+            <td width=250 valign="top">
+                <!-- Interest Earned text field -->
+                <label for="interestEarned" class="label-input">
+                    Interest Earned ($)
+                </label>
+                <br>
+                <input type="text" id="interestEarned" size=15 maxlength=14 class="input-text" readonly>
+            </td>
+        </tr>
+        <tr>
+            <td width=250 valign="top">
+                <!-- Interest Rate text field -->
+                <label for="interestRate" class="label-input">
+                    Interest Rate (%)
+                </label>
+                <br>
+                <input type="text" id="interestRate" size=6 maxlength=6 class="input-text">
+            </td>
+            <td width=250 valign="top">
+                <!-- APY (Annual Percentage Yield) text field -->
+                <label for="apy" class="label-input">
+                    APY (%)
+                </label>
+                <br>
+                <input type="text" id="apy" size=6 maxlength=6 class="input-text" readonly>
+            </td>
+        </tr>
+        <tr>
+            <td width=250 valign="top">
+                <!-- Compounding Frequency selection -->
+                <label for="compounding" class="label-input">
+                    Compound Frequency
+                </label>
+                <br>
+                <select id="compounding" class="input-selection">
+                    <option value="daily" selected>
+                        Daily
+                    </option>
+                    <option value="monthly">
+                        Monthly
+                    </option>
+                </select>
+            </td>
+            <td width=250 valign="top">
+                <!-- Whitespace -->
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td colspan=2 width=500>
+                <hr>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <!-- Calculate button -->
+                <input type="button" id="calculate" value="Calculate" class="input-button">
+            </td>
+            <td>
+                <!-- Print button -->
+                <input type="button" id="print" value="Print" class="input-button">
+            </td>
+        </tr>
+    </table>
 </div>
 
 <script type="text/javascript">
@@ -98,8 +174,8 @@
 // Elements
 const initialAmountInput  = document.getElementById("initialAmount")
 const interestRateInput   = document.getElementById("interestRate")
-const timeInput           = document.getElementById("time")
 const compoundingSelect   = document.getElementById("compounding")
+const timeInput           = document.getElementById("time")
 const endAmountInput      = document.getElementById("endAmount")
 const apyInput            = document.getElementById("apy")
 const interestEarnedInput = document.getElementById("interestEarned")
@@ -109,8 +185,8 @@ const printButton         = document.getElementById("print")
 // Variables
 var initialAmountValue
 var interestRateValue
-var timeValue
 var compoundingValue
+var timeValue
 var endAmountValue
 var apyValue
 var interestEarnedValue
@@ -166,13 +242,13 @@ function makeDollarNumeric(text){
 }
 
 /*
-Name:        makeInterestNumeric
-Purpose:     Convert interest value from string format to numeric format
-Parameters:  text (interest value in string format)
-Returns:     interest value in numeric format
+Name:        makeInterestRateNumeric
+Purpose:     Convert interest rate value from string format to numeric format
+Parameters:  text (interest rate value in string format)
+Returns:     interest rate value in numeric format
 */
 
-function makeInterestNumeric(text){
+function makeInterestRateNumeric(text){
     return Number(text)
 }
 
@@ -240,20 +316,20 @@ function makeAPYString(num){
 
 /*
 Name:        onClickCalculate
-Purpose:     Calculate the end amount, APY, and earned interest amount and display results
+Purpose:     Calculate the end amount, earned interest, and APY and display results
 Parameters:
 Returns:
 */
 
 function onClickCalculate(){
-    // Errors and valid value flags
+    // Errors and valid values flag
     errors = []
-    errorText = "The following errors were identified:\n\n"
+    errorText = "The following errors were found:\n\n"
     validValuesFlag = true
 
-    // Values
+    // Input values
     initialAmountValue = makeDollarNumeric(initialAmountInput.value)
-    interestRateValue  = makeInterestNumeric(interestRateInput.value)
+    interestRateValue  = makeInterestRateNumeric(interestRateInput.value)
     timeValue          = makeTimeNumeric(timeInput.value)
     compoundingValue   = compoundingSelect.value
 
@@ -309,12 +385,12 @@ function onClickCalculate(){
     }
 
     if (validValuesFlag){
-        // Calculate
+        // Calculate end amount, earned interest, and APY
         rValue = interestRateValue / 100.0
-        if (compoundingValue == "monthly"){
-            dValue = 12.0
-        } else if (compoundingValue == "daily"){
+        if (compoundingValue == "daily"){
             dValue = 365.0
+        } else if (compoundingValue == "monthly"){
+            dValue = 12.0
         }
         tValue = timeValue * (dValue / 12.0)
         endAmountValue = initialAmountValue * Math.exp(tValue * Math.log(1.0 + rValue / dValue))
@@ -328,6 +404,7 @@ function onClickCalculate(){
         apyInput.value            = makeAPYString(apyValue)
         interestEarnedInput.value = makeDollarString(interestEarnedValue)
     } else {
+        // Display error messages
         endAmountInput.value      = ""
         apyInput.value            = ""
         interestEarnedInput.value = ""
@@ -354,3 +431,4 @@ function onClickPrint(){
 
 </script>
 </body>
+</html>
