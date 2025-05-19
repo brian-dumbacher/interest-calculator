@@ -337,7 +337,7 @@ Returns:
 function onClickCalculate(){
     // Errors and valid values flag
     errors = []
-    errorsText = "<br>The following errors were found:<br><br>"
+    errorsText = ""
     validValuesFlag = true
 
     // Input values
@@ -426,11 +426,13 @@ function onClickCalculate(){
         apyInput.value            = ""
 
         // Display error messages
+        if (errors.length == 1){
+            errorsText = "<br>The following error was found:<br>"
+        } else {
+            errorsText = "<br>The following errors were found:<br>"
+        }
         for (i=0; i<errors.length; i++){
-            if (i > 0){
-                errorsText += "<br>"
-            }
-            errorsText += "--  " + errors[i]
+            errorsText += "<br>--  " + errors[i]
         }
         errorsFont.innerHTML = errorsText
     }
